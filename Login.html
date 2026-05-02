@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+:root {
+    --fire1: #FF4400;
+    --fire2: #FF8800;
+    --fire3: #FFCC00;
+    --green: #55FF55;
+    --aqua: #55FFFF;
+    --purple: #AA55FF;
+    --gold: #FFAA00;
+    --red: #FF5555;
+    --white: #FFFFFF;
+    --gray: #AAAAAA;
+    --dark: #0A0A0F;
+    --dark2: #111118;
+    --dark3: #1A1A28;
+    --panel: #1E1E2E;
+    --border: #333355;
+  }
+    .fire-bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      background: radial-gradient(ellipse at 50% 110%,#FF220020 0%,transparent 60%),
+      radial-gradient(ellipse at 20% 120%,#FF880015 0%,transparent 50%),
+      radial-gradient(ellipse at 80% 120%,#FF440015 0%,transparent 50%),
+      linear-gradient(180deg,#0A0A0F 0%,#0D0D1A 50%,#120808 100%);
+      overflow: hidden;
+    }
+    .ember {
+      position: absolute;
+      border-radius: 0;
+      animation: emberRise linear infinite;
+      image-rendering: pixelated;
+    }
+    @keyframes emberRise {
+      0% {
+        transform: translateY(0)translateX(0);
+        opacity: 0.9;
+      }
+      50% {
+        opacity: 0.7;
+      }
+      100% {
+        transform: translateY(-100vh)translateX(var(--drift));
+        opacity: 0;
+      }
+    }
+    /* Pixel grid overlay */
+    .fire-bg::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: linear-gradient(rgba(255,255,255,0.015) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(255,255,255,0.015) 1px,transparent 1px);
+      background-size: 32px 32px;
+    }
+    /*================================== IMPORTING FONT ==================================*/
+
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400&display=swap');
+
+    /*================================== BASIC PROPERTIES ==================================*/
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      /* background-image: linear-gradient(to right, #b8cbb8 0%, #b8cbb8 0%, #b465da 0%, #cf6cc9 33%, #ee609c 66%, #ee609c 100%); */
+      background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+      background-size: 400% 400%;
+      transition: 0.5s;
+      animation: change 10s ease-in-out infinite;
+    }
+
+    @keyframes change {
+      0% {
+        background-position: 0 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+      100% {
+        background-position: 0 50%;
+      }
+    }
+    /*=============================== MAKING THE CONTAINER ===============================*/
+    .containter {
+      position: relative;
+      width: 800px;
+      height: 500px;
+      margin: 20px;
+    }
+
+    /*=============================== SIGN IN AND SIGN UP? ===============================*/
+
+    /* Making the background blue */
+    .bluebg {
+      position: absolute;
+      top: 40px;
+      width: 100%;
+      height: 420px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: rgb(255, 255, 255,0.2);
+      box-shadow: 0 5px 45px rgb(0,0,0,0.15);
+      border-radius: 5px;
+    }
+
+    /* Making 2 columns for SIGN IN and SIGN UP */
+    .bluebg .box {
+      position: relative;
+      width: 50%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+
+    /* Adding style to H2 font */
+    .bluebg .box h2 {
+      color: white;
+      font-size: 1.2em;
+      font-weight: 400;
+      margin-bottom: 10px;
+    }
+
+    /* Adding style to BOTH buttons */
+    .bluebg .box button {
+      cursor: pointer;
+      padding: 10px 20px;
+      background: white;
+      color: black;
+      font-size: 16px;
+      border-style: none;
+      font-weight: 500;
+      border-radius: 5px;
+      transition: ease-out 0.3s;
+      position: relative;
+      border: 2px solid white;
+    }
+
+    .bluebg .box button:hover {
+      background: transparent;
+      border: 2px solid white;
+      color: #fff;
+    }
+
+    /*=============================== MAKING THE SLIDER ===============================*/
+
+    /* Adding style to Silder */
+    .formBx {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 50%;
+      height: 100%;
+      background: white;
+      z-index: 1000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 5px 45px rgb(0,0,0,0.15);
+      transition: 0.5s ease-in-out;
+      overflow: hidden;
+      border-radius: 5px;
+    }
+
+    .formBx.active {
+      left: 50%;
+    }
+
+    /* Styling the form for both SIGN IN and SIGN UP */
+    .formBx .form {
+      position: absolute;
+      left: 0;
+      width: 100%;
+      padding: 50px;
+      transition: 0.5s;
+    }
+
+    .formBx .form form {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .formBx .form form i {
+      font-size: 4rem;
+      font-weight: 500;
+      margin-left: 0;
+      padding-left: 0;
+      left: 0;
+      margin-top: 0;
+      margin-bottom: 0.3rem;
+    }
+
+    .formBx .form form .signinimage {
+      color: #23a6d5;
+    }
+
+    /* Adding style to the TEXT of form */
+    .formBx .form form h3 {
+      font-size: 1.5rem;
+      color: #333;
+      margin-bottom: 20px;
+      font-weight: 400;
+    }
+
+    /* Styling the TEXTBOXES|INPUT BOXES */
+    .formBx .form form input {
+      width: 100%;
+      margin-bottom: 20px;
+      padding: 8px;
+      outline: none;
+      font-size: 14px;
+      border: 1px solid #333;
+      border-radius: 5px;
+    }
+
+
+    /*=============================== SIGN IN SECTION ===============================*/
+
+
+    .formBx.active .signinForm {
+      left: -100%;
+      transition-delay: 0%;
+    }
+
+    .formBx .signinForm {
+      transition-delay: 0.2s;
+    }
+
+    .formBx .form form input[type="submit"] {
+      background: #5bbbdd;
+      border: none;
+      color: white;
+      max-width: 100px;
+      cursor: pointer;
+      border-radius: 5px;
+      transition: 0.2s ease;
+    }
+
+    .formBx .form form input[type="submit"]:hover {
+      letter-spacing: 2px;
+    }
+
+    .formBx .form form .forgot {
+      color: rgb(51, 51, 51);
+      font-size: 14px;
+      transition: 0.3s ease-in-out;
+    }
+
+    .formBx .form form .forgot:hover {
+      color: #348dad;
+    }
+
+    /*=============================== SIGN UP SECTION ===============================*/
+
+
+    .formBx .signupForm {
+      left: 100%;
+      transition-delay: 0s;
+    }
+
+    .formBx.active .signupForm {
+      left: 0%;
+      transition-delay: 0.25s;
+    }
+
+    .formBx.active .signupForm input[type="submit"] {
+      background: #f15b9a;
+      border: none;
+      color: white;
+      max-width: 100px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+
+    body.active {
+      background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+      background-size: 400% 400%;
+      animation: change 10s ease-in-out infinite;
+      transition-delay: 5s;
+    }
+
+    /*======================================= ICONS =======================================*/
+
+    img {
+      width: 3.9rem;
+      height: 3.2rem;
+      position: relative;
+      margin-bottom: 0px;
+      left: 0;
+    }
+
+    .signupimage {
+      margin-bottom: 3px;
+      color: #e73c7e;
+    }
+
+
+
+
+
+    /*================================================ END OF CODE =================================================*/
+    /* HERO BUTTONS */
+    .hero-btns {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 3rem;
+    }
+
+    /* ══════════════════════════════
+   MC BUTTONS  (Fleet style)
+══════════════════════════════ */
+    .btn {
+      font-family: 'Press Start 2P',monospace;
+      font-size: 0.4rem;
+      text-decoration: none;
+      padding: 14px 28px;
+      cursor: none;
+      border: none;
+      letter-spacing: 1px;
+      position: relative;
+      display: inline-block;
+      transition: none;
+      text-shadow: 1px 1px 0 #000;
+    }
+    .btn-fire {
+      color: #fff;
+      background: linear-gradient(180deg,#FF6600 0%,#CC3300 100%);
+      border-top: 3px solid #FF9944;
+      border-left: 3px solid #FF9944;
+      border-bottom: 3px solid #881100;
+      border-right: 3px solid #881100;
+    }
+    .btn-fire:hover {
+      background: linear-gradient(180deg,#FF8800 0%,#FF4400 100%);
+      color: var(--fire3);
+      text-shadow: 0 0 8px var(--fire3),1px 1px 0 #000;
+    }
+    .btn-fire:active {
+      transform: translate(2px,2px);
+    }
+
+    .btn-outline {
+      color: var(--gray);
+      background: rgba(255,255,255,0.05);
+      border-top: 3px solid #555;
+      border-left: 3px solid #555;
+      border-bottom: 3px solid #222;
+      border-right: 3px solid #222;
+    }
+    .btn-outline:hover {
+      color: #fff;
+      border-color: #888;
+    }
+
+    .btn-green {
+      color: #fff;
+      background: linear-gradient(180deg,#00AA00 0%,#007700 100%);
+      border-top: 3px solid #55FF55;
+      border-left: 3px solid #55FF55;
+      border-bottom: 3px solid #003300;
+      border-right: 3px solid #003300;
+    }
+    .btn-green:hover {
+      background: linear-gradient(180deg,#00CC00 0%,#009900 100%);
+      color: var(--fire3);
+      text-shadow: 0 0 8px #FFFF00,1px 1px 0 #000;
+    }
+
+    .btn-purple {
+      color: #fff;
+      background: linear-gradient(180deg,#7700CC 0%,#550099 100%);
+      border-top: 3px solid #AA55FF;
+      border-left: 3px solid #AA55FF;
+      border-bottom: 3px solid #330066;
+      border-right: 3px solid #330066;
+    }
+    .btn-purple:hover {
+      color: var(--purple);
+      text-shadow: 0 0 8px var(--purple),1px 1px 0 #000;
+    }
+  </style>
+</head>
+<body>
+  <div class="fire-bg" id="fireBg"></div>
+  <div class="containter">
+    <div class="bluebg">
+      <div class="box signin">
+        <!-- Sign In Button -->
+        <h2>Already Have an Account?</h2>
+        <button class="signinbtn btn btn-fire">Sign In
+        </button>
+      </div>
+      <div class="box signup">
+        <!-- Sign Up Button -->
+        <h2>Don't Have an Account?</h2>
+        <button class="signupbtn">Sign Up</button>
+      </div>
+    </div>
+    <div class="formBx">
+      <!------------ Slider ------------->
+      <div class="form signinForm">
+        <!-- Sign In Form -->
+        <form>
+          <i class='bx bx-log-in signinimage'></i>
+          <h3>Sign In</h3>
+          <input type="text" placeholder=" Username">
+          <input type="password" placeholder=" Password">
+          <input type="submit" value="Login">
+          <a href="#" class="forgot">Forgot Password?</a>
+        </form>
+      </div>
+      <div class="form signupForm">
+        <!-- Sign Up Form -->
+        <form>
+          <i class='bx bxs-user signupimage'></i>
+          <h3>Sign Up</h3>
+          <input type="text" placeholder=" Username">
+          <input type="text" placeholder=" Email Address">
+          <input type="password" placeholder=" Password">
+          <input type="password" placeholder=" Confirm Password">
+          <input type="submit" value="Register">
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-btns">
+    <a href="#ranks" class="btn btn-fire">🔥 BUY RANK</a>
+    <a href="#cosmetics" class="btn btn-outline">🎨 COSMETICS</a>
+    <a href="#bundles" class="btn btn-purple">⚡ BUNDLES</a>
+  </div>
+
+  <script>
+    const bg = document.getElementById('fireBg');
+    const emberColors = ['#FF4400', '#FF6600', '#FF8800', '#FFCC00', '#FF2200'];
+    for (let i = 0; i < 50; i++) {
+      const e = document.createElement('div');
+      e.className = 'ember';
+      const sz = Math.random() < 0.3?6: Math.random() < 0.5?4: 2;
+      const color = emberColors[Math.floor(Math.random()*emberColors.length)];
+      const drift = (Math.random()-0.5)*120+'px';
+      e.style.cssText = `width:${sz}px;height:${sz}px;background:${color};bottom:${-sz}px;left:${Math.random()*100}%;--drift:${drift};animation-duration:${4+Math.random()*8}s;animation-delay:${Math.random()*8}s;box-shadow:0 0 ${sz*2}px ${color};`;
+      bg.appendChild(e);
+    }
+    const signinBtn = document.querySelector('.signinbtn');
+    const signupBtn = document.querySelector('.signupbtn');
+    const formBx = document.querySelector('.formBx');
+    const body = document.querySelector('body');
+
+
+
+    signupBtn.onclick = function() {
+      formBx.classList.add('active')
+      body.classList.add('active')
+    }
+
+    signinBtn.onclick = function() {
+      formBx.classList.remove('active')
+      body.classList.remove('active')
+    }
+  </script>
+</body>
+</html>
